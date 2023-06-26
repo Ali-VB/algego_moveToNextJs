@@ -4,7 +4,7 @@ module.exports = {
     async rewrites() {
         return [
             {
-                source: '/gestion.contenu.algego.com/wp-json/:path*',
+                source: '/api/:path*',
                 destination: 'https://gestion.contenu.algego.com/wp-json/:path*',
             },
         ];
@@ -12,7 +12,7 @@ module.exports = {
     async headers() {
         return [
             {
-                source: '/gestion.contenu.algego.com/wp-json/:path*',
+                source: '/api/:path*',
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
@@ -31,10 +31,10 @@ module.exports = {
         ];
     },
     async serverMiddleware() {
-        const proxy = createProxyMiddleware('/gestion.contenu.algego.com/wp-json', {
-            target: 'https://gestion.contenu.algego.com',
+        const proxy = createProxyMiddleware('/api', {
+            target: 'https://cors-anywhere.herokuapp.com/https://gestion.contenu.algego.com',
             changeOrigin: true,
-            pathRewrite: { '^/gestion.contenu.algego.com/wp-json': '' },
+            pathRewrite: { '^/api': '' },
         });
 
         return [proxy];
