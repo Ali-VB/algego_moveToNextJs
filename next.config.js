@@ -1,20 +1,42 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-// next.config.js
 module.exports = {
+    async rewrites() {
+        return [
+            {
+                source: '/gestion.contenu.algego.com/wp-json/:path*',
+                destination: 'https://gestion.contenu.algego.com/wp-json/:path*',
+            },
+        ];
+    },
     async headers() {
         return [
             {
-                // matching all API routes
-                source: '/gestion.contenu.algego.com/wp-json/wp/v2/realisation',
+                source: '/gestion.contenu.algego.com/wp-json/:path*',
                 headers: [
-                    { key: "Access-Control-Allow-Credentials", value: "*" },
-                    { key: "Access-Control-Allow-Origin", value: "https://algego-move-to-next-js.vercel.app" },
-                    { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-                    { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
-                ]
-            }
-        ]
-    }
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                    {
+                        key: 'Access-Control-Allow-Methods',
+                        value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+                    },
+                    {
+                        key: 'Access-Control-Allow-Headers',
+                        value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+                    },
+                ],
+            },
+        ];
+    },
+    async serverMiddleware() {
+        const proxy = createProxyMiddleware('/gestion.contenu.algego.com/wp-json', {
+            target: 'https://gestion.contenu.algego.com',
+            changeOrigin: true,
+            pathRewrite: { '^/gestion.contenu.algego.com/wp-json': '' },
+        });
+
+        return [proxy];
+    },
 };
