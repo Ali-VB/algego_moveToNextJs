@@ -7,7 +7,7 @@ module.exports = {
         return [
             {
                 // matching all API routes
-                source: 'https://gestion.contenu.algego.com/wp-json/wp/v2/realisation?per_page=100',
+                source: '/gestion.contenu.algego.com/wp-json/wp/v2/realisation',
                 headers: [
                     { key: "Access-Control-Allow-Credentials", value: "true" },
                     { key: "Access-Control-Allow-Origin", value: "*" },
