@@ -4,15 +4,15 @@ module.exports = {
     async rewrites() {
         return [
             {
-                source: '/api/:path*',
-                destination: 'https://gestion.contenu.algego.com/wp-json/:path*',
+                source: '/api/all-realization',
+                destination: 'https://gestion.contenu.algego.com/wp/v2/realisation',
             },
         ];
     },
     async headers() {
         return [
             {
-                source: '/api/:path*',
+                source: '/api/all-realization',
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
