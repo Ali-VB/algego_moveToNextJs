@@ -9,19 +9,19 @@ import DialogComp from '@/components/DilogComp'
 import RealisationComp from '@/components/RealisationComp';
 
 const getAllRealizations = async () => {
-    const res = await fetch('https://gestion.contenu.algego.com/wp-json/wp/v2/realisation?per_page=100');
+    const res = await fetch('https://gestion.contenu.algego.com/wp-json/wp/v2/realisation');
     const data = await res.json();
     return data;
 }
 
 export default async function AllRealizations() {
-   
+
     // const [realisations, setRealizations] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedReal, setSelectedReal] = useState(null);
 
     const realisations = await getAllRealizations();
-    
+
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
@@ -43,7 +43,7 @@ export default async function AllRealizations() {
     const handleClose = () => {
         setOpen(false);
     };
-  
+
     return (
         <>
             <div className='row'>
